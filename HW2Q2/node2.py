@@ -10,7 +10,7 @@ Question2
 Source code from https://github.com/dvf/blockchain/blob/master/blockchain.py
 """
 
-import pdb
+
 import hashlib
 import json
 from time import time
@@ -78,10 +78,9 @@ class Blockchain:
         """
         This is our consensus algorithm, it resolves conflicts
         by replacing our chain with the longest one in the network.
-
         :return: True if our chain was replaced, False if not
         """
-        # pdb.set_trace()
+
         neighbours = self.nodes
         new_chain = None
 
@@ -91,7 +90,7 @@ class Blockchain:
         # Grab and verify the chains from all the nodes in our network
         for node in neighbours:
             response = requests.get(f'http://{node}/chain')
-        
+
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']
@@ -111,7 +110,6 @@ class Blockchain:
     def new_block(self, proof, previous_hash):
         """
         Create a new Block in the Blockchain
-
         :param proof: The proof given by the Proof of Work algorithm
         :param previous_hash: Hash of previous Block
         :return: New Block
@@ -134,7 +132,6 @@ class Blockchain:
     def new_transaction(self, sender, recipient, amount):
         """
         Creates a new transaction to go into the next mined Block
-
         :param sender: Address of the Sender
         :param recipient: Address of the Recipient
         :param amount: Amount
@@ -156,7 +153,6 @@ class Blockchain:
     def hash(block):
         """
         Creates a SHA-256 hash of a Block
-
         :param block: Block
         """
 
@@ -167,7 +163,6 @@ class Blockchain:
     def proof_of_work(self, last_block):
         """
         Simple Proof of Work Algorithm:
-
          - Find a number p' such that hash(pp') contains leading 4 zeroes
          - Where p is the previous proof, and p' is the new proof
          
@@ -188,12 +183,10 @@ class Blockchain:
     def valid_proof(last_proof, proof, last_hash):
         """
         Validates the Proof
-
         :param last_proof: <int> Previous Proof
         :param proof: <int> Current Proof
         :param last_hash: <str> The hash of the Previous Block
         :return: <bool> True if correct, False if not.
-
         """
 
         guess = f'{last_proof}{proof}{last_hash}'.encode()
@@ -304,7 +297,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
-    parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    parser.add_argument('-p', '--port', default=5001, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
 
